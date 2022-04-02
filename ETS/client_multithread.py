@@ -90,6 +90,11 @@ def getdatapemain(nomor=0, is_secure=False):
     return hasil
 
 
+def get_nomor_pemain(num_request, is_secure=False):
+    for i in range(num_request):
+        getdatapemain(random.randint(1, 10), is_secure)
+
+
 # def lihatversi(is_secure=False):
 #     cmd=f"versi \r\n\r\n"
 #     hasil = send_command(cmd,is_secure=is_secure)
@@ -100,7 +105,7 @@ def multi_thread(thread=1, num_request=1, is_secure=False):
 
     catat_awal = datetime.datetime.now()
     for k in range(thread):
-        texec[k] = threading.Thread(target=getdatapemain, args=(random.randint(1, 10), is_secure))
+        texec[k] = threading.Thread(target=get_nomor_pemain, args=(num_request, is_secure))
         texec[k].start()
 
     # setelah menyelesaikan tugasnya, dikembalikan ke main thread dengan join
@@ -110,7 +115,7 @@ def multi_thread(thread=1, num_request=1, is_secure=False):
     catat_akhir = datetime.datetime.now()
     selesai = catat_akhir - catat_awal
     print(
-        f"Jumlah thread: {thread}, Jumlah request: {num_request}, Jumlah response: {num_request * thread} Waktu yang dibutuhkan: {selesai} detik")
+        f"Jumlah thread: {thread}, Jumlah request: {num_request}, Jumlah response: {num_request * thread}, Latency: {selesai} detik")
 
 
 if __name__ == '__main__':
@@ -119,7 +124,7 @@ if __name__ == '__main__':
     jml_thread3 = 10
     jml_thread4 = 20
 
-    jml_request_data = 5
+    jml_request_data = 3
     is_secure = False  # menonaktifkan secure socket
 
-    multi_thread(jml_thread3, jml_request_data, is_secure) 
+    multi_thread(jml_thread4, jml_request_data, is_secure) 
